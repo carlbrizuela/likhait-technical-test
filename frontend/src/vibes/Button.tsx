@@ -44,6 +44,7 @@ export function Button({
           backgroundColor: COLORS.success,
           color: "white",
           border: "none",
+          marginLeft: "3px"
         };
     }
   };
