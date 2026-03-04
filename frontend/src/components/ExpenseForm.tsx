@@ -96,7 +96,7 @@ export function ExpenseForm({
         <Button
           type="submit"
           variant="primary"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !!errors.date}
           fullWidth
         >
           {isSubmitting ? "Submitting..." : submitLabel}
