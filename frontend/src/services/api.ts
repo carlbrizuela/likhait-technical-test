@@ -69,11 +69,13 @@ export async function createExpense(data: ExpenseFormData): Promise<Expense> {
     body: JSON.stringify({ expense: expenseData }),
   });
 
+  const dataResponse = await response.json();
+
   if (!response.ok) {
-    throw new Error("Failed to create expense");
+    throw new Error(dataResponse.errors ? dataResponse.errors.join(", ") : "Failed to create expense");
   }
 
-  return response.json();
+  return dataResponse;
 }
 
 /**

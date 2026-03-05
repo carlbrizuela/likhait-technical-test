@@ -28,6 +28,16 @@ export function useExpenseForm({ initialData, onSubmit }: UseExpenseFormProps) {
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
+    // BONUS-001: Prevent Future Date Expense Creation --- add real time validation for future dates input
+    if (field === "date") {
+      const today = new Date().toISOString().slice(0, 10);
+      if (value > today) {
+        setErrors((prev) => ({
+          ...prev,
+          date: "Please select date today or a past date",
+        }));
+      }
+    }
   };
 
   const validateForm = (): boolean => {
