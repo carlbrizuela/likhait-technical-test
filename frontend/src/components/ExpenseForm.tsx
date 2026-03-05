@@ -7,6 +7,7 @@ import { ExpenseFormData } from "../types";
 import { TextField, SelectBox, Button } from "../vibes";
 import { useExpenseForm } from "../hooks/useExpenseForm";
 import { fetchCategories } from "../services/api";
+import { useCategories } from "../hooks/useCategories";
 
 interface ExpenseFormProps {
   initialData?: Partial<ExpenseFormData>;
@@ -27,21 +28,7 @@ export function ExpenseForm({
       onSubmit,
     });
 
-  const [categoryList, setCategoryList] =  useState<string[]>([])
-
-  useEffect(() => {
-    const loadCategories = async () => {
-      try{
-        const fetchedCategories = await fetchCategories()
-        const categoryNames = fetchedCategories.map((category) => category.name)
-        setCategoryList(categoryNames)
-      } catch (error) {
-        console.error("Failed to load categories:", error);
-        setCategoryList([]); // Handle errors gracefully
-      }
-    }
-    loadCategories();
-  }, []);
+  const { categoryList } = useCategories();
 
   const formStyle: React.CSSProperties = {
     display: "flex",
