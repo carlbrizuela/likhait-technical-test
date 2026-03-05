@@ -2,11 +2,9 @@
  * Form component for adding/editing expenses
  */
 
-import React, { useEffect, useState } from "react";
 import { ExpenseFormData } from "../types";
 import { TextField, SelectBox, Button } from "../vibes";
 import { useExpenseForm } from "../hooks/useExpenseForm";
-import { fetchCategories } from "../services/api";
 import { useCategories } from "../hooks/useCategories";
 
 interface ExpenseFormProps {
