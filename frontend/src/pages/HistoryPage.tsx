@@ -10,12 +10,14 @@ import { Modal, Button } from "../vibes";
 import { COLORS } from "../constants/colors";
 import { CategoryForm } from "../components/CategoryForm";
 import CustomAlert from "../components/CustomAlertBox";
+import { CategoryList } from "../components/CategoryList";
 
 const HistoryPage: React.FC = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addCategoryModal, setAddCategoryModal] = useState(false);
+  const [listModal, setListModal] = useState(false);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
 
@@ -93,6 +95,7 @@ const HistoryPage: React.FC = () => {
       setAddCategoryModal(false)
       setError("")
       setSuccess(`New category created: ${response.name}`)
+      setListModal(true)
     } catch (error: any) {
       setError(error.message);
     }
@@ -162,14 +165,6 @@ const HistoryPage: React.FC = () => {
 
   return (
     <div style={pageStyle}>
-      {success && (
-        <CustomAlert
-          message={success}
-          variant="success"
-          duration={3000} // disappears after 3s
-          onClose={() => setSuccess("")}
-        />
-      )}
       <div style={headerStyle}>
         <div style={leftHeaderStyle}>
           <h1 style={titleStyle}>Expense History</h1>
@@ -224,6 +219,7 @@ const HistoryPage: React.FC = () => {
           onCancel={() => setIsModalOpen(false)}
         />
       </Modal>
+      
       <Modal
         isOpen={addCategoryModal}
         onClose={() => setAddCategoryModal(false)}
@@ -235,6 +231,22 @@ const HistoryPage: React.FC = () => {
           error = {error}
           setError={setError}
         />
+      </Modal>
+
+      <Modal
+        isOpen={listModal}
+        onClose={() => setListModal(false)}
+        title="Category List"
+      >
+        {success && (
+          <CustomAlert
+            message={success}
+            variant="success"
+            duration={3000} // disappears after 3s
+            onClose={() => setSuccess("")}
+          />
+        )}
+        <CategoryList />
       </Modal>
     </div>
   );

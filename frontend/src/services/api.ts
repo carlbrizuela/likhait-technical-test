@@ -111,6 +111,10 @@ export async function deleteExpense(id: number): Promise<void> {
   }
 }
 
+/**
+ * Add new category
+ */
+
 export async function createCategory(category: string): Promise<Category>{
   const response = await fetch(`${API_BASE_URL}/categories`, {
     method: "POST",
@@ -123,7 +127,7 @@ export async function createCategory(category: string): Promise<Category>{
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.errors ? data.errors.join(", ") : "Failed to create category");
+    throw new Error(data.errors ? data.errors.name[0] : "Failed to create category");
   }
 
   return data;

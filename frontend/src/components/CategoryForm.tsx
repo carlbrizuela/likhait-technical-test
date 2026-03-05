@@ -4,6 +4,7 @@
 
 import React, { useState } from "react";
 import { Button, TextField } from "../vibes";
+import { CategoryList } from "./CategoryList";
 
 interface CategoryFormProps {
   onSubmit: (category: string) => Promise<void>;
@@ -15,6 +16,7 @@ interface CategoryFormProps {
 export function CategoryForm({ onSubmit, onCancel, error, setError}: CategoryFormProps){
 
   const [category, setCategory] = useState("")
+  const [listModal, setListModal] = useState(false);
 
   const buttonGroupStyle: React.CSSProperties = {
     display: "flex",
@@ -36,38 +38,63 @@ export function CategoryForm({ onSubmit, onCancel, error, setError}: CategoryFor
     setError(""); // clear error as user types
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <TextField
-        type="text"
-        placeholder="Enter category"
-        value={category}
-        onChange={handleInputChange}
-        required
-        error = {error}
-      />
+  const toggleModal = () => {
+    setListModal(prev => !prev);
+  }
 
-      <div style={buttonGroupStyle}>
-        <Button
-          type="submit"
-          variant="success"
-          // disabled={isSubmitting}
-          fullWidth
-        >
-        Add Category
-        {/* {isSubmitting ? "Submitting..." : submitLabel} */}
-        </Button>
-        {onCancel && (
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={onCancel}
-            // disabled={isSubmitting}
-          >
-            Cancel
-          </Button>
-        )}
-            </div>  
-      </form>
+  const modalStyle: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+  }
+
+  const showStyle: React.CSSProperties = {
+    cursor:"pointer",
+    margin: "2px",
+    textDecoration: "underline",
+    fontSize: "small",
+    color: "blue"
+  }
+
+  return (
+    <div style={modalStyle}>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            type="text"
+            placeholder="Enter category"
+            value={category}
+            onChange={handleInputChange}
+            required
+            error = {error}
+          />
+
+          <div style={buttonGroupStyle}>
+            <Button
+              type="submit"
+              variant="success"
+              fullWidth
+            >
+              Add Category
+            </Button>
+            
+            { onCancel && (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={onCancel}
+                >
+                  Cancel
+                </Button>
+            )}
+          </div>  
+        </form>
+
+        <p style={showStyle} onClick={toggleModal}>
+          { listModal ? "Hide categories":"Show categories"}
+        </p>
+      </div>
+
+      { listModal && <CategoryList /> }
+    </div>
   );
 }
